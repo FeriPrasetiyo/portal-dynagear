@@ -15,6 +15,7 @@
             align-items: center;
             justify-content: center;
             font-family: Arial, sans-serif;
+            padding: 16px;
         }
 
         .login-card {
@@ -26,15 +27,23 @@
         }
 
         .logo-box {
-            width: 80px;
-            height: 80px;
-            border-radius: 22px;
-            background: #eff6ff;
+            width: 92px;
+            height: 92px;
+            border-radius: 50%;
+            background: #ffffff;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 38px;
             margin: 0 auto 18px;
+            box-shadow: 0 10px 24px rgba(0,0,0,0.18);
+            overflow: hidden;
+        }
+
+        .login-logo {
+            width: 86px;
+            height: 86px;
+            object-fit: cover;
+            border-radius: 50%;
         }
 
         .form-control {
@@ -54,75 +63,9 @@
 <div class="card login-card shadow-lg">
     <div class="card-body p-4 p-md-5">
 
-        <div class="text-center mb-4">
-            <div class="logo-box">
-                🔐
-            </div>
+        @include('auth.partials.login-logo')
 
-            <h3 class="fw-bold mb-1">
-                Portal Dynagear
-            </h3>
-
-            <p class="text-muted mb-0">
-                Login untuk akses semua sistem
-            </p>
-        </div>
-
-        @if ($errors->any())
-            <div class="alert alert-danger">
-                Email atau password salah.
-            </div>
-        @endif
-
-        @if (session('status'))
-            <div class="alert alert-success">
-                {{ session('status') }}
-            </div>
-        @endif
-
-        <form method="POST" action="{{ route('login') }}">
-            @csrf
-
-            <div class="mb-3">
-                <label class="form-label fw-semibold">
-                    Email
-                </label>
-
-                <input type="email"
-                       name="email"
-                       class="form-control"
-                       value="{{ old('email') }}"
-                       placeholder="contoh: admin@dynagear.com"
-                       required
-                       autofocus>
-            </div>
-
-            <div class="mb-3">
-                <label class="form-label fw-semibold">
-                    Password
-                </label>
-
-                <input type="password"
-                       name="password"
-                       class="form-control"
-                       placeholder="Masukkan password"
-                       required>
-            </div>
-
-            <div class="d-flex justify-content-between align-items-center mb-4">
-                <label class="form-check-label text-muted">
-                    <input type="checkbox"
-                           name="remember"
-                           class="form-check-input">
-                    Remember me
-                </label>
-            </div>
-
-            <button type="submit"
-                    class="btn btn-primary btn-login w-100">
-                Masuk Portal
-            </button>
-        </form>
+        @include('auth.partials.login-form')
 
     </div>
 </div>
