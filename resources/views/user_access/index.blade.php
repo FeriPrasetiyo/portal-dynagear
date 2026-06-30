@@ -5,8 +5,10 @@
 
     <div class="d-flex justify-content-between align-items-center mb-4">
         <div>
-            <h3 class="fw-bold mb-1">Pengaturan Akses User</h3>
-            <p class="text-muted mb-0">
+            <h3 class="fw-bold mb-1 text-white">
+              Pengaturan Akses User
+            </h3>
+            <p class="text-white-50 mb-0">
                 Atur akses aplikasi berdasarkan user.
             </p>
         </div>

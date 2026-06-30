@@ -9,6 +9,21 @@ use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
+    private function roles(): array
+    {
+        return [
+            'super_admin',
+            'manager_pl',
+            'admin_pl',
+            'manager_sales',
+            'admin_sales',
+            'assembling',
+            'gudang',
+            'purchasing',
+            'sales',
+        ];
+    }
+
     public function index()
     {
         $users = User::with('access')
@@ -20,17 +35,7 @@ class UserController extends Controller
 
     public function create()
     {
-        $roles = [
-            'super_admin',
-            'manager_pl',
-            'admin_pl',
-            'manager_sales',
-            'admin_sales',
-            'assembling',
-            'gudang',
-            'purchasing',
-            'sales',
-        ];
+        $roles = $this->roles();
 
         return view('users.create', compact('roles'));
     }
@@ -41,7 +46,7 @@ class UserController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|string|min:3',
-            'role' => 'required|string|max:255',
+            'role' => 'required|string|in:' . implode(',', $this->roles()),
         ]);
 
         $user = User::create([
@@ -67,6 +72,52 @@ class UserController extends Controller
         return redirect()
             ->route('users.index')
             ->with('success', 'User berhasil ditambahkan.');
+    }
+
+    public function edit(User $user)
+    {
+        $roles = $this->roles();
+
+        return view('users.edit', compact('user', 'roles'));
+    }
+
+    public function update(Request $request, User $user)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email,' . $user->id,
+            'password' => 'nullable|string|min:3',
+            'role' => 'required|string|in:' . implode(',', $this->roles()),
+        ]);
+
+        $data = [
+            'name' => $request->name,
+            'email' => $request->email,
+            'role' => $request->role,
+        ];
+
+        if ($request->filled('password')) {
+            $data['password'] = Hash::make($request->password);
+        }
+
+        $user->update($data);
+
+        UserAccess::firstOrCreate(
+            ['user_id' => $user->id],
+            [
+                'sales_report' => false,
+                'sales_stock_search' => false,
+                'stock_full' => false,
+                'assembling' => false,
+                'assembling_create' => false,
+                'assembling_edit' => false,
+                'assembling_delete' => false,
+            ]
+        );
+
+        return redirect()
+            ->route('users.index')
+            ->with('success', 'User berhasil diperbarui.');
     }
 
     public function destroy(User $user)

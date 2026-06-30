@@ -28,6 +28,16 @@ Route::middleware('auth')->group(function () {
 
 Route::middleware(['auth', 'super_admin'])->group(function () {
 
+    Route::resource('users', UserController::class)
+        ->only([
+            'index',
+            'create',
+            'store',
+            'edit',
+            'update',
+            'destroy',
+        ]);
+
     Route::resource('user-access', UserAccessController::class)
         ->only(['index', 'edit', 'update'])
         ->parameters([
@@ -36,18 +46,6 @@ Route::middleware(['auth', 'super_admin'])->group(function () {
 
     Route::post('user-access/{user}/wilayah', [UserAccessController::class, 'updateWilayah'])
         ->name('user-access.update-wilayah');
-
-    Route::get('/users', [UserController::class, 'index'])
-        ->name('users.index');
-
-    Route::get('/users/create', [UserController::class, 'create'])
-        ->name('users.create');
-
-    Route::post('/users', [UserController::class, 'store'])
-        ->name('users.store');
-
-    Route::delete('/users/{user}', [UserController::class, 'destroy'])
-        ->name('users.destroy');
 
 });
 
