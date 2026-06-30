@@ -6,11 +6,11 @@
     <div class="d-flex justify-content-between align-items-center mb-4">
         <div>
             <h3 class="fw-bold mb-1 text-white">
-                Tambah User
+              Edit User
             </h3>
 
             <p class="text-white-50 mb-0">
-                Tambahkan user baru ke Portal Dynagear.
+                Perbarui data user Portal Dynagear.
             </p>
         </div>
 
@@ -20,25 +20,25 @@
         </a>
     </div>
 
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <strong>Terjadi kesalahan:</strong>
+
+            <ul class="mb-0 mt-2">
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+
     <div class="card border-0 shadow-sm">
         <div class="card-body">
 
-            @if ($errors->any())
-                <div class="alert alert-danger">
-                    <strong>Terjadi Kesalahan:</strong>
-
-                    <hr>
-
-                    <ul class="mb-0">
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endif
-
-            <form action="{{ route('users.store') }}" method="POST">
+            <form action="{{ route('users.update', $user->id) }}"
+                  method="POST">
                 @csrf
+                @method('PUT')
 
                 <div class="mb-3">
                     <label class="form-label fw-semibold">
@@ -48,8 +48,7 @@
                     <input type="text"
                            name="name"
                            class="form-control"
-                           value="{{ old('name') }}"
-                           placeholder="Masukkan nama user"
+                           value="{{ old('name', $user->name) }}"
                            required>
                 </div>
 
@@ -61,21 +60,23 @@
                     <input type="email"
                            name="email"
                            class="form-control"
-                           value="{{ old('email') }}"
-                           placeholder="contoh@dynagear.test"
+                           value="{{ old('email', $user->email) }}"
                            required>
                 </div>
 
                 <div class="mb-3">
                     <label class="form-label fw-semibold">
-                        Password
+                        Password Baru
                     </label>
 
                     <input type="password"
                            name="password"
                            class="form-control"
-                           placeholder="Masukkan password"
-                           required>
+                           placeholder="Kosongkan jika tidak ingin mengubah password">
+
+                    <small class="text-muted">
+                        Isi hanya jika ingin mengganti password.
+                    </small>
                 </div>
 
                 <div class="mb-4">
@@ -92,21 +93,17 @@
 
                         @foreach($roles as $role)
                             <option value="{{ $role }}"
-                                {{ old('role') === $role ? 'selected' : '' }}>
+                                {{ old('role', $user->role) === $role ? 'selected' : '' }}>
                                 {{ ucwords(str_replace('_', ' ', $role)) }}
                             </option>
                         @endforeach
                     </select>
                 </div>
 
-                <div class="alert alert-info">
-                    User baru hanya dibuat di Portal. Akses aplikasi bisa diatur setelah user berhasil dibuat.
-                </div>
-
                 <div class="d-flex gap-2">
                     <button type="submit"
-                            class="btn btn-success">
-                        Simpan User
+                            class="btn btn-primary">
+                        Simpan Perubahan
                     </button>
 
                     <a href="{{ route('users.index') }}"

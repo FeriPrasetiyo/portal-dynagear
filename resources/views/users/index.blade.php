@@ -5,13 +5,13 @@
 
     <div class="d-flex justify-content-between align-items-center mb-4">
         <div>
-            <h3 class="fw-bold mb-1">
-                Kelola User
-            </h3>
+            <h3 class="fw-bold mb-1 text-white">
+    Kelola User
+</h3>
 
-            <p class="text-muted mb-0">
-                Tambah dan hapus user Portal Dynagear.
-            </p>
+<p class="text-white-50 mb-0">
+    Tambah, edit, dan hapus user Portal Dynagear.
+</p>
         </div>
 
         <div class="d-flex gap-2">
@@ -49,10 +49,6 @@
                         <th>Nama</th>
                         <th>Email</th>
                         <th>Role</th>
-                        <th>Assembling</th>
-                        <th>Tambah</th>
-                        <th>Edit</th>
-                        <th>Hapus</th>
                         <th width="180">Aksi</th>
                     </tr>
                 </thead>
@@ -75,43 +71,11 @@
                             </td>
 
                             <td>
-                                @if(optional($user->access)->assembling)
-                                    <span class="badge bg-success">Ya</span>
-                                @else
-                                    <span class="badge bg-secondary">Tidak</span>
-                                @endif
-                            </td>
-
-                            <td>
-                                @if(optional($user->access)->assembling_create)
-                                    <span class="badge bg-success">Ya</span>
-                                @else
-                                    <span class="badge bg-secondary">Tidak</span>
-                                @endif
-                            </td>
-
-                            <td>
-                                @if(optional($user->access)->assembling_edit)
-                                    <span class="badge bg-success">Ya</span>
-                                @else
-                                    <span class="badge bg-secondary">Tidak</span>
-                                @endif
-                            </td>
-
-                            <td>
-                                @if(optional($user->access)->assembling_delete)
-                                    <span class="badge bg-success">Ya</span>
-                                @else
-                                    <span class="badge bg-secondary">Tidak</span>
-                                @endif
-                            </td>
-
-                            <td>
                                 <div class="d-flex gap-2">
 
-                                    <a href="{{ route('user-access.edit', $user->id) }}"
+                                    <a href="{{ route('users.edit', $user->id) }}"
                                        class="btn btn-warning btn-sm">
-                                        Akses
+                                        Edit
                                     </a>
 
                                     @if($user->id !== auth()->id() && $user->role !== 'super_admin')
@@ -133,7 +97,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="9" class="text-center text-muted">
+                            <td colspan="5" class="text-center text-muted">
                                 User belum ada.
                             </td>
                         </tr>
