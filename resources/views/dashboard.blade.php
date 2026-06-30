@@ -30,13 +30,20 @@
 
             <a href="{{ route('users.index') }}"
                class="btn btn-primary shadow-sm">
-                👥 Kelola User
+                Kelola User
             </a>
 
             <a href="{{ route('users.create') }}"
                class="btn btn-success shadow-sm">
-                ➕ Tambah User
+                Tambah User
             </a>
+
+            @if(Route::has('user-access.index'))
+                <a href="{{ route('user-access.index') }}"
+                   class="btn btn-warning shadow-sm">
+                    Pengaturan Akses
+                </a>
+            @endif
 
         </div>
     @endif
@@ -45,7 +52,7 @@
 
         @if(Auth::user()->canAccessAssembling())
             <div class="col-md-4 mb-4">
-                <a href="http://assembling.dynagear.test:8002/wilayah"
+                <a href="https://assembling.dynagear.co.id/wilayah"
                    class="text-decoration-none">
                     <div class="card portal-card h-100 shadow">
                         <div class="card-body text-center p-5">
@@ -58,7 +65,7 @@
                             </h4>
 
                             <p class="text-muted">
-                                Sistem assembling produksi Dynagear.
+                                Sistem dokumentasi assembling produksi Dynagear.
                             </p>
 
                             <span class="btn btn-primary rounded-pill px-4">
@@ -72,7 +79,7 @@
 
         @if(Auth::user()->canAccessStockFull())
             <div class="col-md-4 mb-4">
-                <a href="http://stock.dynagear.test:8003/dashboard"
+                <a href="https://stock.dynagear.co.id/dashboard"
                    class="text-decoration-none">
                     <div class="card portal-card h-100 shadow">
                         <div class="card-body text-center p-5">
@@ -99,7 +106,7 @@
 
         @if(Auth::user()->canAccessSalesStockSearch())
             <div class="col-md-4 mb-4">
-                <a href="http://stock.dynagear.test:8003/sales/stock-search"
+                <a href="https://stock.dynagear.co.id/sales/stock-search"
                    class="text-decoration-none">
                     <div class="card portal-card h-100 shadow">
                         <div class="card-body text-center p-5">
@@ -123,36 +130,6 @@
                 </a>
             </div>
         @endif
-
-        {{-- Sales Report disembunyikan dulu --}}
-        {{--
-        @if(Auth::user()->canAccessSalesReport())
-            <div class="col-md-4 mb-4">
-                <a href="http://127.0.0.1:8001/dashboard"
-                   class="text-decoration-none">
-                    <div class="card portal-card h-100 shadow">
-                        <div class="card-body text-center p-5">
-                            <div class="icon-box bg-danger-subtle text-danger">
-                                📊
-                            </div>
-
-                            <h4 class="fw-bold text-dark">
-                                Sales Report
-                            </h4>
-
-                            <p class="text-muted">
-                                Sistem laporan sales dan monitoring deal.
-                            </p>
-
-                            <span class="btn btn-danger rounded-pill px-4">
-                                Masuk Sistem
-                            </span>
-                        </div>
-                    </div>
-                </a>
-            </div>
-        @endif
-        --}}
 
     </div>
 
